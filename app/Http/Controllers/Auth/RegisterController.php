@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -51,6 +52,7 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'role' => 'required|exists:roles,id' // добавили валидацию роли
         ]);
     }
 
@@ -67,5 +69,14 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+        $user->roles()->sync([$data['role']]); // добавили роль к модели
+        return $user;
+    }
+    
+    //вывод формы регистрации - извлекаем все роли
+    public function showRegistrationForm()
+    {
+        $roles = Role::all()->pluck('slug', 'id');
+        return view('auth.register', compact('roles'));
     }
 }
