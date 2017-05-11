@@ -73,7 +73,7 @@ class RegisterController extends Controller
         return $user;
     }
     
-    //вывод формы регистрации - извлекаем все роли
+    //вывод формы регистрации - извлекаем все роли и передаем их во вьюху
     public function showRegistrationForm()
     {
         $roles = Role::all()->pluck('slug', 'id');

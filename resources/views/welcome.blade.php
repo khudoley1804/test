@@ -76,6 +76,7 @@
                     @endif
                 </div>
             @endif
+            <a href="{{route('news.index')}}">News</a>
 
             <div class="content">
                 <div class="title m-b-md">
